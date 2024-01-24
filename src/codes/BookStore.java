@@ -1,5 +1,13 @@
 import java.util.ArrayList;
-import java.util.Set;
+
+/**
+ * A BookStore program that contains novel information;
+ * specifically book title, author, and the year it's published.
+ * The program also contains method to parse and find specific data
+ *
+ * @author felipe guerro, sam ordonez
+ * @version 1.0
+ */
 public class BookStore
 {
     private final String            bookStoreName;
@@ -11,16 +19,22 @@ public class BookStore
         if(bookStoreName == null || bookStoreName.isBlank())
         {
             this.bookStoreName = null;
-        }
-        else if(bookStoreName.equalsIgnoreCase("Amazon"))
+        } else if(bookStoreName.equalsIgnoreCase("Amazon"))
         {
             this.bookStoreName = "Chapters";
-        }
-        else
+        } else
         {
             this.bookStoreName = bookStoreName;
         }
         this.novelReferences = new ArrayList<>();
+        initializeNovelReferences();
+    }
+
+    /**
+     *
+     */
+    private void initializeNovelReferences()
+    {
         novelReferences.add(null);
         novelReferences.add(new Novel("The Adventures of Augie March", "Saul Bellow", 1953));
         novelReferences.add(new Novel("All the King's Men", "Robert Penn Warren", 1946));
@@ -129,5 +143,178 @@ public class BookStore
         novelReferences.add(new Novel("White Noise", "Don DeLillo", 1985));
         novelReferences.add(new Novel("White Teeth", "Zadie Smith", 2000));
         novelReferences.add(new Novel("Wide Sargasso Sea", "Jean Rhys", 1966));
+
+        System.out.println(novelReferences.size());
+        System.out.println(this.bookStoreName);
+    }
+
+    public void printAllTitles()
+    {
+        for(Novel novelReference : novelReferences)
+        {
+            if(novelReference != null)
+            {
+                if(novelReference.getBookTitle() != null)
+                {
+                    System.out.println(novelReference.getBookTitle().toUpperCase());
+                }
+            }
+        }
+    }
+
+    public void printTitlesContaining(String    substring,
+                                      boolean   caseSensitive)
+    {
+        for (Novel novelReference : novelReferences)
+        {
+            if (novelReference != null && novelReference.getBookTitle() != null)
+            {
+                String title;
+                title = novelReference.getBookTitle();
+
+                if (!caseSensitive)
+                {
+                    // If caseSensitive is false, convert both the title and substring to lowercase
+                    title       = title.toLowerCase();
+                    substring   = substring.toLowerCase();
+                }
+
+                if (title.contains(substring))
+                {
+                    System.out.println(novelReference.getBookTitle());
+                }
+            }
+        }
+    }
+
+    public void printTitlesOfLength(int length)
+    {
+        for(Novel novelReference : novelReferences)
+        {
+            if(novelReference != null && novelReference.getBookTitle() != null)
+            {
+                String title;
+                title = novelReference.getBookTitle();
+
+                if(title.length() == length)
+                {
+                    System.out.println(novelReference.getBookTitle());
+                }
+            }
+        }
+    }
+
+    public void printNameStartsEndsWith(String substring)
+    {
+        for (Novel novelReference : novelReferences)
+        {
+            if (novelReference != null && novelReference.getAuthorName() != null)
+            {
+                substring = substring.toLowerCase();
+                String authorName;
+
+                authorName = novelReference.getAuthorName().toLowerCase();
+
+                // Check if the author name starts or ends with the specified substring
+                if (authorName.startsWith(substring) || authorName.endsWith(substring))
+                {
+                    System.out.println(novelReference.getAuthorName().toLowerCase());
+                }
+            }
+        }
+    }
+
+    public String getLongest(String property)
+    {
+        if (property != null)
+        {
+            property = property.toLowerCase();
+
+            if (property.equals("author"))
+            {
+                return findLongestAuthor();
+            } else if(property.equals("title"))
+            {
+                return findLongestTitle();
+            }
+        }
+        // Return null if the property is something else or null
+        return null;
+    }
+
+    private String findLongestAuthor()
+    {
+        String longestAuthor = null;
+
+        for (Novel novelReference : novelReferences)
+        {
+            if (novelReference != null && novelReference.getAuthorName() != null)
+            {
+                String authorName;
+                authorName= novelReference.getAuthorName().toLowerCase();
+
+                if (longestAuthor == null || authorName.length() > longestAuthor.length())
+                {
+                    longestAuthor = authorName;
+                }
+            }
+        }
+        System.out.println(longestAuthor);
+        return longestAuthor;
+    }
+
+    private String findLongestTitle()
+    {
+        String longestTitle = null;
+
+        for (Novel novelReference : novelReferences)
+        {
+            if (novelReference != null && novelReference.getBookTitle() != null)
+            {
+                String title;
+                title = novelReference.getBookTitle().toLowerCase();
+
+                if (longestTitle == null || title.length() > longestTitle.length())
+                {
+                    longestTitle = title;
+                }
+            }
+        }
+        System.out.println(longestTitle);
+        return longestTitle;
+    }
+    public static void main(final String[] args)
+    {
+        // Check if command-line arguments are provided
+        if (args.length > 0) {
+            // The first argument is assumed to be the name of the BookStore
+            String bookStoreName = args[0];
+
+            // Create an empty ArrayList<Novel>
+            ArrayList<Novel> novelReferences = new ArrayList<>();
+
+            // Create a BookStore object
+            BookStore bookStore1 = new BookStore(bookStoreName, novelReferences);
+
+            System.out.println("----------");
+            bookStore1.printAllTitles();
+            System.out.println("----------");
+            bookStore1.printTitlesContaining("the", false);
+            System.out.println("----------");
+            bookStore1.printTitlesContaining("the", true);
+            System.out.println("----------");
+            bookStore1.printTitlesOfLength(13);
+            System.out.println("----------");
+            bookStore1.printNameStartsEndsWith("aN");
+            System.out.println("----------");
+            bookStore1.getLongest("auThOr");
+            System.out.println("----------");
+            bookStore1.getLongest("tItLe");
+        } else {
+            System.out.println("Please provide the name of the BookStore as a command-line argument.");
+        }
     }
 }
+
+
+
