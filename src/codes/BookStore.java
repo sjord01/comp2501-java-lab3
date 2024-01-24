@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * specifically book title, author, and the year it's published.
  * The program also contains method to parse and find specific data
  *
- * @author felipe guerro, sam ordonez
+ * @author Andres Arevalo, sam ordonez
  * @version 1.0
  */
 public class BookStore
@@ -31,7 +31,7 @@ public class BookStore
     }
 
     /**
-     *
+     *Adds new list to the novelReferences Object
      */
     private void initializeNovelReferences()
     {
@@ -148,6 +148,9 @@ public class BookStore
         System.out.println(this.bookStoreName);
     }
 
+    /**
+     * Prints all the book titles in the class in uppercase format
+     */
     public void printAllTitles()
     {
         for(Novel novelReference : novelReferences)
@@ -162,6 +165,14 @@ public class BookStore
         }
     }
 
+    /**
+     *Prints book titles, the comparators, that contain the substring.
+     * If true, the comparator should contain the exact substring;
+     * if false, the substring will match equal texts from the comparators regardless of the case
+     * 
+     * @param substring         the substring to search for if it exists in the comparator (book title)
+     * @param caseSensitive     boolean; True or False;
+     */
     public void printTitlesContaining(String    substring,
                                       boolean   caseSensitive)
     {
@@ -187,6 +198,11 @@ public class BookStore
         }
     }
 
+    /**
+     * Prints book titles that contains x amount of length in it, where x is a variable number from user-input
+     *
+     * @param length the length of book title to search for in the novelReferences list of bookTitle data
+     */
     public void printTitlesOfLength(int length)
     {
         for(Novel novelReference : novelReferences)
@@ -204,6 +220,12 @@ public class BookStore
         }
     }
 
+    /**
+     * Prints book titles, the comparators, that contain the substring exactly at the beginning or end.
+     *
+     * @param substring the substring to search for if it exists exactly at the beginning or end of the
+     *                  comparator (book title)
+     */
     public void printNameStartsEndsWith(String substring)
     {
         for (Novel novelReference : novelReferences)
@@ -224,6 +246,21 @@ public class BookStore
         }
     }
 
+    /**
+     * Prints the longest size of object data either from the novelReferences list of bookTitle or authorName
+     * Limitations:
+     * If input == "author"; the function will print the longest size of object data from the
+     * novelReferences authorName data; it's case-insensitive.
+     * If input == "title"; the function will print the longest size of object data from the
+     * novelReferences bookTitle data;  it's case-insensitive.
+     * Any other input else from "author" or "title" (case-insensitive) will result to null
+     *
+     * @param property  a string, ideally either "author" or "title", to check the longest size of object data
+     *                  from either the list of novelReferences object data in either bookTitle or authorName
+     * @return          the longest size of object data from either the list of novelReferences object data in either
+     *                  bookTitle or authorName; Any other input else from "author" or "title" (case-insensitive)
+     *                  will result to null
+     */
     public String getLongest(String property)
     {
         if (property != null)
@@ -242,6 +279,11 @@ public class BookStore
         return null;
     }
 
+    /**
+     * Prints the longest size of object data from the novelReferences list of bookTitle
+     *
+     * @return the longest size of object data from the novelReferences list of bookTitle
+     */
     private String findLongestAuthor()
     {
         String longestAuthor = null;
@@ -263,6 +305,11 @@ public class BookStore
         return longestAuthor;
     }
 
+    /**
+     * Prints the longest size of object data from the novelReferences list of authorName
+     *
+     * @return the longest size of object data from the novelReferences list of authorName
+     */
     private String findLongestTitle()
     {
         String longestTitle = null;
@@ -283,6 +330,15 @@ public class BookStore
         System.out.println(longestTitle);
         return longestTitle;
     }
+
+    /**
+     * The main method of the BookStore program.
+     * It serves as the entry point for the application, creating a BookStore object and performing various operations.
+     * If command-line arguments are provided, the first argument is assumed to be the name of the BookStore.
+     *
+     * @param args Command-line arguments provided when running the program.
+     *             The first argument is expected to be the name of the BookStore.
+     */
     public static void main(final String[] args)
     {
         // Check if command-line arguments are provided
@@ -315,6 +371,3 @@ public class BookStore
         }
     }
 }
-
-
-
