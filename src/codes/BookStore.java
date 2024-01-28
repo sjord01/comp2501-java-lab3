@@ -1,20 +1,21 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A BookStore program that contains novel information;
  * specifically book title, author, and the year it's published.
  * The program also contains method to parse and find specific data
  *
- * @author Andres Arevalo, sam ordonez
+ * @author Andres Arevalo, Sam Ordonez
  * @version 1.0
  */
 public class BookStore
 {
-    private final String            bookStoreName;
-    private final ArrayList<Novel>  novelReferences;
+    private final String       bookStoreName;
+    private final List<Novel>  novelReferences;
 
-    public BookStore(final String       bookStoreName,
-                     final ArrayList<Novel>  novelReferences)
+    public BookStore(final String               bookStoreName,
+                     final ArrayList<Novel>     novelReferences)
     {
         if(bookStoreName == null || bookStoreName.isBlank())
         {
@@ -27,11 +28,12 @@ public class BookStore
             this.bookStoreName = bookStoreName;
         }
         this.novelReferences = new ArrayList<>();
+        //Populate novelReferences
         initializeNovelReferences();
     }
 
     /**
-     *Adds new list to the novelReferences Object
+     *Populates/adds new lists to the novelReferences Object
      */
     private void initializeNovelReferences()
     {
@@ -169,30 +171,26 @@ public class BookStore
      *Prints book titles, the comparators, that contain the substring.
      * If true, the comparator should contain the exact substring;
      * if false, the substring will match equal texts from the comparators regardless of the case
-     * 
+     *
      * @param substring         the substring to search for if it exists in the comparator (book title)
      * @param caseSensitive     boolean; True or False;
      */
-    public void printTitlesContaining(String    substring,
-                                      boolean   caseSensitive)
-    {
-        for (Novel novelReference : novelReferences)
-        {
-            if (novelReference != null && novelReference.getBookTitle() != null)
-            {
+    public void printTitlesContaining(final String substring, final boolean caseSensitive) {
+        for (Novel novel : novelReferences) {
+            if (novel != null && novel.getBookTitle() != null && !novel.getBookTitle().isBlank()) {
                 String title;
-                title = novelReference.getBookTitle();
+                String searchSubstring;
 
-                if (!caseSensitive)
-                {
-                    // If caseSensitive is false, convert both the title and substring to lowercase
-                    title       = title.toLowerCase();
-                    substring   = substring.toLowerCase();
+                title = novel.getBookTitle();
+                searchSubstring = substring;
+
+                if (!caseSensitive) {
+                    title = title.toLowerCase();
+                    searchSubstring = substring.toLowerCase();
                 }
 
-                if (title.contains(substring))
-                {
-                    System.out.println(novelReference.getBookTitle());
+                if (title.contains(searchSubstring)) {
+                    System.out.println(novel.getBookTitle());
                 }
             }
         }
@@ -203,13 +201,13 @@ public class BookStore
      *
      * @param length the length of book title to search for in the novelReferences list of bookTitle data
      */
-    public void printTitlesOfLength(int length)
+    public void printTitlesOfLength(final int length)
     {
         for(Novel novelReference : novelReferences)
         {
             if(novelReference != null && novelReference.getBookTitle() != null)
             {
-                String title;
+                final String title;
                 title = novelReference.getBookTitle();
 
                 if(title.length() == length)
@@ -226,19 +224,20 @@ public class BookStore
      * @param substring the substring to search for if it exists exactly at the beginning or end of the
      *                  comparator (book title)
      */
-    public void printNameStartsEndsWith(String substring)
+    public void printNameStartsEndsWith(final String substring)
     {
         for (Novel novelReference : novelReferences)
         {
             if (novelReference != null && novelReference.getAuthorName() != null)
             {
-                substring = substring.toLowerCase();
-                String authorName;
+                final String searchSubString;
+                final String authorName;
 
+                searchSubString = substring.toLowerCase();
                 authorName = novelReference.getAuthorName().toLowerCase();
 
                 // Check if the author name starts or ends with the specified substring
-                if (authorName.startsWith(substring) || authorName.endsWith(substring))
+                if (authorName.startsWith(searchSubString) || authorName.endsWith(searchSubString))
                 {
                     System.out.println(novelReference.getAuthorName().toLowerCase());
                 }
@@ -286,13 +285,14 @@ public class BookStore
      */
     private String findLongestAuthor()
     {
-        String longestAuthor = null;
+        String longestAuthor;
+        longestAuthor = null;
 
         for (Novel novelReference : novelReferences)
         {
             if (novelReference != null && novelReference.getAuthorName() != null)
             {
-                String authorName;
+                final String authorName;
                 authorName= novelReference.getAuthorName().toLowerCase();
 
                 if (longestAuthor == null || authorName.length() > longestAuthor.length())
@@ -312,13 +312,14 @@ public class BookStore
      */
     private String findLongestTitle()
     {
-        String longestTitle = null;
+        String longestTitle;
+        longestTitle = null;
 
         for (Novel novelReference : novelReferences)
         {
             if (novelReference != null && novelReference.getBookTitle() != null)
             {
-                String title;
+                final String title;
                 title = novelReference.getBookTitle().toLowerCase();
 
                 if (longestTitle == null || title.length() > longestTitle.length())
@@ -352,13 +353,13 @@ public class BookStore
             // Create a BookStore object
             BookStore bookStore1 = new BookStore(bookStoreName, novelReferences);
 
-            System.out.println("----------");
+            System.out.println("---PRINT ALL TITLES---");
             bookStore1.printAllTitles();
-            System.out.println("----------");
+            System.out.println("---PRINT TITLES CONTAINING, \"the\", FALSE---");
             bookStore1.printTitlesContaining("the", false);
-            System.out.println("----------");
+            System.out.println("---PRINT TITLES CONTAINING, \"the\", TRUE---");
             bookStore1.printTitlesContaining("the", true);
-            System.out.println("----------");
+            System.out.println("---PRINT TITLES OF LENGTH, 13---");
             bookStore1.printTitlesOfLength(13);
             System.out.println("----------");
             bookStore1.printNameStartsEndsWith("aN");
